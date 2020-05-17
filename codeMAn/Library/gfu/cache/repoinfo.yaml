@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cacheType: 1
-  lastUpdatedAtString: 2020-05-15T12:32:01.926-07:00
-  initializedAtString: 2020-05-15T10:59:24.075-07:00
+  lastUpdatedAtString: 2020-05-16T13:19:55.938-07:00
+  initializedAtString: 2020-05-16T13:19:55.938-07:00
   currentGitRemote:
     name: origin
     url: https://github.com/jinwoov/Unity-sandbox.git
