@@ -6,7 +6,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Bug : MonoBehaviour
 {
     [SerializeField]
-    float runSpeed = 5f;
+    float runSpeed = .5f;
 
     Rigidbody2D MyRigidBody { get; set; }
 
@@ -14,23 +14,29 @@ public class Bug : MonoBehaviour
     void Start()
     {
         MyRigidBody = GetComponent<Rigidbody2D>();
-        Run();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isFacingRight())
+        {
+            MyRigidBody.velocity = new Vector2(runSpeed, 0f);
+        }
+        else
+        {
+            MyRigidBody.velocity = new Vector2(-runSpeed, 0f);
+        }
     }
 
-    private void Run()
+    bool isFacingRight()
     {
-        //Get the horizontal axis
-        float controlThrow = CrossPlatformInputManager.GetAxis("Horizontal"); // value is between -1 to 1
+        return transform.localScale.x > 0;
+    }
 
-        // Creating velocity
-        Vector2 playerVelocity = new Vector2(controlThrow * runSpeed, MyRigidBody.velocity.y);
-
-        // make velocity to the upper variable velocity
-        MyRigidBody.velocity = playerVelocity;
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        Debug.Log(collision);
+        transform.localScale = new Vector2(-(Mathf.Sign(MyRigidBody.velocity.x)), 1f);
     }
 }

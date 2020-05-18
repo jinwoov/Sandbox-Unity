@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     float jumpSpeed = 28f;
     private bool isGrounded;
+    [SerializeField] Vector2 deathKick = new Vector2(25f, 25f);
 
 
     //State
@@ -21,7 +22,9 @@ public class Player : MonoBehaviour
     SpriteRenderer playerSprite;
     Rigidbody2D MyRigidBody { get; set; }
     Animator MyAnimator { get; set; }
-    Collider2D MyCollider2D { get; set; }
+    CapsuleCollider2D MyBodyCollider { get; set; }
+    BoxCollider2D MyFeetCollider { get; set; }
+
 
 
     // Start is called before the first frame update
@@ -30,16 +33,19 @@ public class Player : MonoBehaviour
         MyRigidBody = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         MyAnimator = GetComponent<Animator>();
-        MyCollider2D = GetComponent<Collider2D>();
+        MyBodyCollider = GetComponent<CapsuleCollider2D>();
+        MyFeetCollider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!isAlive) { return; }
         acceleration = Input.GetAxisRaw("Horizontal");
         Run();
         Jump();
         FlipSprite();
+        Die();
     }
 
 
@@ -60,9 +66,19 @@ public class Player : MonoBehaviour
 
     }
 
+    private void Die()
+    {
+        if (MyBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
+        {
+            MyAnimator.SetTrigger("Die");
+            GetComponent<Rigidbody2D>().velocity = deathKick;
+            isAlive = false;
+        }
+    }
+
     private void Jump()
     {
-        if (!MyCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if (!MyFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             return;
         }

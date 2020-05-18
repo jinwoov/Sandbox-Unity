@@ -14,10 +14,10 @@ TagManager:
   - 
   - 
   - Ground
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Background
+  - Enemy
+  - Hazards
   - 
   - 
   - 
@@ -43,6 +43,12 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 4099347977
+    locked: 0
+  - name: Enemy
+    uniqueID: 4215699565
+    locked: 0
+  - name: Hazards
+    uniqueID: 1108005277
     locked: 0
   - name: Character
     uniqueID: 37516139
